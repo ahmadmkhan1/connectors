@@ -159,6 +159,7 @@ class ExportFileCsv:
 
             # List
             lister = {
+                "Stix-Domain-Object": self.helper.api.stix_domain_object.list,
                 "Attack-Pattern": self.helper.api.attack_pattern.list,
                 "Campaign": self.helper.api.campaign.list,
                 "Note": self.helper.api.note.list,
@@ -175,7 +176,7 @@ class ExportFileCsv:
                 "Threat-Actor": self.helper.api.threat_actor.list,
                 "Tool": self.helper.api.tool.list,
                 "Vulnerability": self.helper.api.vulnerability.list,
-                "X-OpenCTI-Incident": self.helper.api.x_opencti_incident.list,
+                "Incident": self.helper.api.incident.list,
                 "Stix-Cyber-Observable": self.helper.api.stix_cyber_observable.list,
             }
             do_list = lister.get(

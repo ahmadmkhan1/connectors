@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   ensure_formatting:
     docker:
-      - image: circleci/python:3.7.7
+      - image: circleci/python:3.9
     working_directory: ~/repo
     steps:
       - checkout
@@ -37,9 +37,9 @@ jobs:
           name: Build Docker image opencti/connector-import-file-stix
           command: docker build -t opencti/connector-import-file-stix:latest . && docker tag opencti/connector-import-file-stix:latest opencti/connector-import-file-stix:${CIRCLE_TAG}
       - run:
-          working_directory: ~/opencti/import-file-pdf-observables
-          name: Build Docker image opencti/connector-import-file-pdf-observables
-          command: docker build -t opencti/connector-import-file-pdf-observables:latest . && docker tag opencti/connector-import-file-pdf-observables:latest opencti/connector-import-file-pdf-observables:${CIRCLE_TAG}
+          working_directory: ~/opencti/import-report
+          name: Build Docker image opencti/connector-import-report
+          command: docker build -t opencti/connector-import-report:latest . && docker tag opencti/connector-import-report:latest opencti/connector-import-report:${CIRCLE_TAG}
       - run:
           working_directory: ~/opencti/export-file-stix
           name: Build Docker image opencti/connector-export-file-stix
@@ -157,13 +157,37 @@ jobs:
           name: Build Docker image opencti/connector-malbeacon
           command: docker build -t opencti/connector-malbeacon:latest . && docker tag opencti/connector-malbeacon:latest opencti/connector-malbeacon:${CIRCLE_TAG}
       - run:
+          working_directory: ~/opencti/sekoia
+          name: Build Docker image opencti/connector-sekoia
+          command: docker build -t opencti/connector-sekoia:latest . && docker tag opencti/connector-sekoia:latest opencti/connector-sekoia:${CIRCLE_TAG}          
+      - run:
+          working_directory: ~/opencti/threatbus
+          name: Build Docker image opencti/connector-threatbus
+          command: docker build -t opencti/connector-threatbus:latest . && docker tag opencti/connector-threatbus:latest opencti/connector-threatbus:${CIRCLE_TAG}
+      - run:
+          working_directory: ~/opencti/hybrid-analysis-sandbox
+          name: Build Docker image opencti/connector-hybrid-analysis-sandbox
+          command: docker build -t opencti/connector-hybrid-analysis-sandbox:latest . && docker tag opencti/connector-hybrid-analysis-sandbox:latest opencti/connector-hybrid-analysis-sandbox:${CIRCLE_TAG}
+      - run:
+          working_directory: ~/opencti/splunk
+          name: Build Docker image opencti/connector-splunk
+          command: docker build -t opencti/connector-splunk:latest . && docker tag opencti/connector-splunk:latest opencti/connector-splunk:${CIRCLE_TAG}
+      - run:
+          working_directory: ~/opencti/elasticsearch
+          name: Build Docker image opencti/connector-elasticsearch
+          command: docker build -t opencti/connector-elasticsearch:latest . && docker tag opencti/connector-elasticsearch:latest opencti/connector-elasticsearch:${CIRCLE_TAG}
+      - run:
+          working_directory: ~/opencti/vxvault
+          name: Build Docker image opencti/connector-vxvault
+          command: docker build -t opencti/connector-vxvault:latest . && docker tag opencti/connector-vxvault:latest opencti/connector-vxvault:${CIRCLE_TAG}
+      - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push opencti/connector-import-file-stix:latest
             docker push opencti/connector-import-file-stix:${CIRCLE_TAG}
-            docker push opencti/connector-import-file-pdf-observables:latest
-            docker push opencti/connector-import-file-pdf-observables:${CIRCLE_TAG}
+            docker push opencti/connector-import-report:latest
+            docker push opencti/connector-import-report:${CIRCLE_TAG}
             docker push opencti/connector-export-file-stix:latest
             docker push opencti/connector-export-file-stix:${CIRCLE_TAG}
             docker push opencti/connector-export-file-csv:latest
@@ -222,6 +246,18 @@ jobs:
             docker push opencti/connector-urlhaus:${CIRCLE_TAG}
             docker push opencti/connector-malbeacon:latest
             docker push opencti/connector-malbeacon:${CIRCLE_TAG}
+            docker push opencti/connector-sekoia:latest
+            docker push opencti/connector-sekoia:${CIRCLE_TAG}            
+            docker push opencti/connector-threatbus:latest
+            docker push opencti/connector-threatbus:${CIRCLE_TAG}
+            docker push opencti/connector-hybrid-analysis-sandbox:latest
+            docker push opencti/connector-hybrid-analysis-sandbox:${CIRCLE_TAG}
+            docker push opencti/connector-splunk:latest
+            docker push opencti/connector-splunk:${CIRCLE_TAG}
+            docker push opencti/connector-elasticsearch:latest
+            docker push opencti/connector-elasticsearch:${CIRCLE_TAG}
+            docker push opencti/connector-vxvault:latest
+            docker push opencti/connector-vxvault:${CIRCLE_TAG}
   build_rolling:
     working_directory: ~/opencti
     docker:
@@ -234,9 +270,9 @@ jobs:
           name: Build Docker image opencti/connector-import-file-stix
           command: docker build -t opencti/connector-import-file-stix:rolling .
       - run:
-          working_directory: ~/opencti/import-file-pdf-observables
-          name: Build Docker image opencti/connector-import-file-pdf-observables
-          command: docker build -t opencti/connector-import-file-pdf-observables:rolling .
+          working_directory: ~/opencti/import-report
+          name: Build Docker image opencti/connector-import-report
+          command: docker build -t opencti/connector-import-report:rolling .
       - run:
           working_directory: ~/opencti/export-file-stix
           name: Build Docker image opencti/connector-export-file-stix
@@ -354,11 +390,35 @@ jobs:
           name: Build Docker image opencti/connector-malbeacon
           command: docker build -t opencti/connector-malbeacon:rolling .
       - run:
+          working_directory: ~/opencti/sekoia
+          name: Build Docker image opencti/connector-sekoia
+          command: docker build -t opencti/connector-sekoia:rolling . 
+      - run:
+          working_directory: ~/opencti/threatbus
+          name: Build Docker image opencti/connector-threatbus
+          command: docker build -t opencti/connector-threatbus:rolling .
+      - run:
+          working_directory: ~/opencti/hybrid-analysis-sandbox
+          name: Build Docker image opencti/connector-hybrid-analysis-sandbox
+          command: docker build -t opencti/connector-hybrid-analysis-sandbox:rolling .
+      - run:
+          working_directory: ~/opencti/splunk
+          name: Build Docker image opencti/connector-splunk
+          command: docker build -t opencti/connector-splunk:rolling .
+      - run:
+          working_directory: ~/opencti/elasticsearch
+          name: Build Docker image opencti/connector-elasticsearch
+          command: docker build -t opencti/connector-elasticsearch:rolling .
+      - run:
+          working_directory: ~/opencti/vxvault
+          name: Build Docker image opencti/connector-vxvault
+          command: docker build -t opencti/connector-vxvault:rolling .
+      - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push opencti/connector-import-file-stix:rolling
-            docker push opencti/connector-import-file-pdf-observables:rolling
+            docker push opencti/connector-import-report:rolling
             docker push opencti/connector-export-file-stix:rolling
             docker push opencti/connector-export-file-csv:rolling
             docker push opencti/connector-hygiene:rolling
@@ -388,6 +448,12 @@ jobs:
             docker push opencti/connector-abuseipdb:rolling
             docker push opencti/connector-urlhaus:rolling
             docker push opencti/connector-malbeacon:rolling
+            docker push opencti/connector-sekoia:rolling
+            docker push opencti/connector-threatbus:rolling
+            docker push opencti/connector-hybrid-analysis-sandbox:rolling
+            docker push opencti/connector-splunk:rolling
+            docker push opencti/connector-elasticsearch:rolling
+            docker push opencti/connector-vxvault:rolling
 workflows:
   version: 2
   opencti:
